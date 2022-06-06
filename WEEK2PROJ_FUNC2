@@ -1,0 +1,30 @@
+complete <- function(id = 1:332, directory = "specdata") {
+
+    ## return a data frame of the form:
+    ## id nobs
+    ## 1  117
+    ##'id' is monitor ID number; 'nobs' is number of complete cases
+    
+    ## compile number of complete cases
+    
+    df <- data.frame(id = numeric(0), nobs = numeric(0))
+    
+    for(files in id) {
+    
+        file_path <- paste(getwd(), "/", directory, "/", sprintf("%03d", files), ".csv", sep = "")
+    
+        data <- read.csv(file_path)
+        
+        necc_data <- complete.cases(data)
+        
+        nobs <- sum(necc_data)
+        
+        df <- rbind(df, data.frame(files, nobs))
+    
+         }
+    
+    colnames(df)[1] <- c("id")
+    
+    df
+
+}

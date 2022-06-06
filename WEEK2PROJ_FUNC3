@@ -1,0 +1,35 @@
+corr <- function(threshold = 0, directory = "specdata") {
+
+                id = 1:332
+                
+                cor_results <- numeric(0)
+                
+                for(files in id) {
+                
+                        file_path <- paste(getwd(), "/", directory, "/", sprintf("%03d", files), ".csv", sep = "")
+                    
+                        data <- read.csv(file_path)
+                        
+                        necc_data <- complete.cases(data)
+                        
+                        nobs <- sum(necc_data)
+                        
+                        if (nobs > threshold) {
+                        
+                              useful_data <- data[(!is.na(data$sulfate)), ]
+                              
+                              useful_data <- useful_data[(!is.na(useful_data$nitrate)), ]
+                              
+                          sulfate_data <- useful_data["sulfate"]
+                          
+                          nitrate_data <- useful_data["nitrate"]
+                          
+                         cor_results <- c(cor_results, cor(sulfate_data, nitrate_data))
+                        
+                        }
+            
+            }
+            
+            cor_results
+
+}

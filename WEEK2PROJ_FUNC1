@@ -1,0 +1,19 @@
+pollutantmean <- function(directory = "specdata", pollutant = "sulfate", id = 1:332) {
+
+  means <- c()
+
+    for(files in id) {
+    
+    file_path <- paste(getwd(), "/", directory, "/", sprintf("%03d", files), ".csv", sep = "")
+    
+    data <- read.csv(file_path)
+    
+    necc_data <- data[pollutant]
+    
+    means <- c(means, necc_data[!is.na(necc_data)])
+    
+    }
+
+  mean(means)
+
+}
